@@ -1,0 +1,52 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: rawats.bhupi.com
+spec:
+  group: bhupi.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        # openAPIV3Schema is the schema for validating custom objects.
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                podSpec:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    image:
+                      type: string
+                configmapSpec:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    data:
+                      type: string
+  scope: Namespaced
+  names:
+    plural: rawats
+    singular: rawat
+    kind: Rawats
+    shortNames:
+    - rwt
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: config-monitor-crd
+rules:
+- apiGroups:
+  - bhupi.com
+  resources:
+  - rawat
+  - rawat/finalizers
+  verbs: [ get, list, create, update, delete, deletecollection, watch ]
