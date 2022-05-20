@@ -1,0 +1,11 @@
+apiVersion: bhupi.com/v1
+kind: Rawats
+metadata:
+ name: rawat-1
+spec:
+  podSpec:
+    name: "rawattest"
+    image: "nginx"
+  configmapSpec:
+    name: "rawattest"
+    data: "This is configmap data"
